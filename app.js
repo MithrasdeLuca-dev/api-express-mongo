@@ -1,11 +1,22 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
-require('./database/config')
 
-app.get('/', (req, res) => res.send('Hello World!'))
+require('./database/config');
+require('dotenv').config();
+app.use(express.json());
+const port = process.env.PORT_BACKEND;
 
-const LocalHttp = 'http://localhost:3010'
+const userRouter = require('./api/router/userRouter');
+const zipCode = require('./api/router/zipCodeRouter');
+const companyRouter = require('./api/router/companyRouter');
 
-app.listen(3010, () => console.log('Example app listening on port 3010! ' + LocalHttp));
+app.get('/', (req, res) => res.send('Hello World!'));
+
+app.use('/user', userRouter);
+app.use('/company', companyRouter);
+app.use('/zipcode', zipCode);
+
+const LocalHttp = `http://localhost:${port}`;
+
+app.listen(port, () => console.log(`Example app listening on port ${port}! ` + LocalHttp));
 
