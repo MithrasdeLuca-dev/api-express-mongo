@@ -11,9 +11,12 @@ const userSearch = {
 			throw new Error(error);
 		}
 	},
-	createNewUser: async (dataUser) => {
+	createNewUser: async (idNewAddress, dataCompany) => {
 		try {
-			const newCompany = await new Company(dataUser);
+			const newCompany = await new Company({
+				...dataCompany,
+				address: idNewAddress
+			});
 			await newCompany.save();
 			return { msg: `Olá a companhia ${newCompany.corporateName} foi cadastrada com sucesso.`, newCompany };
 		} catch (error) {

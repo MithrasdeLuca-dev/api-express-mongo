@@ -1,4 +1,5 @@
 const CompanyService = require('../services/companyService');
+const zipCodeService = require('../services/zipCodeService');
 
 const createCompanyController = {
 	show: async (request, response) => {
@@ -13,12 +14,15 @@ const createCompanyController = {
 	},
 	create: async (request, response) => {
 
-		const dataCompany = request.body;
-
+		const { dataCompany, dataAddress } = request.body;
 		try {
-			const newCompany = await CompanyService.createNewUser(dataCompany);
-			return response.status(201).json(newCompany);
+			const newAddress = await zipCodeService.createAddress(dataAddress);
 
+			if (newAddress) {
+				const newCompany = await CompanyService.createNewUser(newAddress._id, dataCompany);
+				return response.status(201).json(newCompany);
+			}
+			return response.status(400).json({ msg: 'Não foi possível cadastrar o endereço. ' });
 		} catch (error) {
 			return response.status(500).json({ error: error.message });
 		}

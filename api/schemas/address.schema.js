@@ -1,4 +1,3 @@
-const beautifyUnique = require('mongoose-beautiful-unique-validation');
 const mongoose = require('mongoose');
 
 const addressSchema = new mongoose.Schema({
@@ -11,8 +10,6 @@ const addressSchema = new mongoose.Schema({
 	number: { type: String, required: false },
 	complement: { type: String, required: false },
 });
-
-addressSchema.plugin(beautifyUnique);
 
 const Address = mongoose.model('Address', addressSchema);
 
