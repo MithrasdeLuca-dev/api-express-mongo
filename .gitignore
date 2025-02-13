@@ -5,3 +5,4 @@ node_modules
 nodemon.json
 database.js
 docs/swagger_output.json
+package-lock.json
